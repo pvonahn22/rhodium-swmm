@@ -19,20 +19,22 @@ This section provides general instructions for installing Rhodium-Swmm and runni
 
 Clone the repository by running the following command. 
 
-    git clone https://github.com/julianneq/rhodium-swmm
+    `git clone https://github.com/julianneq/rhodium-swmm`
 
 If you are unfamiliar with git, download a zip file of the repository by clicking on the green Code button and then unzip it.
 
+Install Anaconda from https://www.anaconda.com/
+
 From Anaconda Prompt, navigate to the `rhodium-swmm` directory (`cd /path/to/rhodium-swmm`)  
 Then create a Python 3.10 virtual environment with:  
-    conda create python310-venv python=3.10
+    `conda create python310-venv python=3.10`
 
 Then activate this environment with:  
-    conda activate python310-venv
+    `conda activate python310-venv`
 
 Next, install the necessary Python packages with:  
-    pip install -r requirements.txt
-    pip install git+https://github.com/julianneq/rhodium-swmm
+    `pip install -r requirements.txt`
+    `pip install git+https://github.com/julianneq/rhodium-swmm`
 
 ## optimize
 
