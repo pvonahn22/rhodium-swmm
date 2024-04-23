@@ -15,149 +15,29 @@ This section provides general instructions for installing Rhodium-Swmm and runni
 # Usage
 
 
-## Prerequisite Software
-
-Please install software listed below.
-
-* [Docker](https://docs.docker.com/engine/install/) for your operating system.
-
-**Note** 
-If using Linux OS ensure you also complete the [Docker post installation steps](https://docs.docker.com/engine/install/linux-postinstall/) before building your container
-
-
-## Building Conatiner with Docker
+## Building Python Virtual Environment
 
 Clone the repository by running the following command. 
 
-    git clone https://github.com/NastaranT/rhodium-swmm.git
+    git clone https://github.com/julianneq/rhodium-swmm
 
-If you are unfamiliar with git, download a zip file of the repository by clicking on the green Code button.
+If you are unfamiliar with git, download a zip file of the repository by clicking on the green Code button and then unzip it.
 
+From Anaconda Prompt, navigate to the `rhodium-swmm` directory (`cd /path/to/rhodium-swmm`)  
+Then create a Python 3.10 virtual environment with:  
+    conda create python310-venv python=3.10
 
-<br> Build the docker image while in the root of the example_module repository `rhodium-swmm/`.
-       
-    docker build -t rhodium_swmm . 
+Then activate this environment with:  
+    conda activate python310-venv
 
-
-<br>**Note** 
-*for Mac OS using Arm-based M1 Chip - Some images do not support the ARM64 architecture. You can add `--platform linux/amd64` to run (or build) an Intel image using emulation.
-
-    docker build --platform linux/amd64 -t rhodium_swmm .
-
-## Running example_module command line
-1. Run the example_module command line help utility.  The example_module python module has a command line interface accessed by the example_module command. The following command runs the python module inside the docker container, but redirects all output to the directory you chose for results. Replace <results directory> with the full path of the directory where your output will be stored:
-```	 
-docker run -v <results directory>:/localmnt -u $(id -u ${USER}):$(id -g ${USER}) rhodium_swmm example_module --help
-```
-2. To view help for a specific sub command add the help directive after the subcommand.  For example to view optimization help run:
-```
-docker run -v <results directory>:/localmnt -u $(id -u ${USER}):$(id -g ${USER}) rhodium_swmm example_module optimize --help
-```
-3. Run other commands by modifying the previous one.  For example, to run an optimization with NFE=100 run this command:
-```
-docker run -v <results directory>:/localmnt -u $(id -u ${USER}):$(id -g ${USER}) rhodium_swmm example_module optimize --NFE 100
-```
-**Note**: Windows OS does not need to specify user id. Remove `-u ($id -u ${USER}):$(id -g ${USER})` from call string.
-
-# Using the example_module command line utility
+Next, install the necessary Python packages with:  
+    pip install -r requirements.txt
+    pip install git+https://github.com/julianneq/rhodium-swmm
 
 ## optimize
 
-Options
-
-```
---NFE INTEGER         Number of optimization runs to perform. Default is 1000.
-
---algorithm [NSGAII]  Optimization algorithm. Default is NSGAII.
-```
-
-Example of command with full options: 
-
-`example_module optimize –NFE 100  –algorithm “NSGAII”`
-
-## robust-optimize
-
-Options
-
-```
---NFE INTEGER            Number of optimization runs to perform. Default is 1000.
-
---algorithm [NSGAII]     Optimization algorithm. Default is NSGAII.
-
---num_SOW INTEGER RANGE  Set the number of states of the world. Default is 100
-```
-
-Example of command with full options: 
-
-`example_module optimize –NFE 100  –algorithm “NSGAII” – --num_SOW 100`
-
-## parallel-plot
-
-Options
-
-```
---optimize_output PATH  Output csv from Rhodium-SWMM optimization
-
---response TEXT         name of one the responses (RunoffVolume, Cost, CoBenefit, IssuePriority, VacantPriority, AggregationPriority )
-
---cutoff FLOAT          a cutoff number of interest
-```
-
-Example of command with full options:
-
-`example_module parallel-plot --optimize_output ~/example_module/example_module/data/rother_data/optimize-NSGAII-100000-3obj.csv --response “RunoffVolume” --cutoff 1`
-
-
-## evaluate
-
-Options
-
-```
---num_SOW INTEGER RANGE    Set the number of states of the world. Default is 100.
-
---optimize_output PATH     Output csv from Rhodium-SWMM optimization
-
---policy <CHOICE TEXT>...  Takes a response name followed by either min or max. Finds a policy that minimizes or maximizes the specified response.
-```
-
-Example of command with full options: 
-
-`example_module evaluate –num_SOW 100  –optimize-output ~/example_module/example_module/data/other_data/optimize-NSGAII-100000-3obj.csv  –policy min RunoffVolume`
-
-## evaluate-robustness
-
-Options
-
-```
---num_SOW INTEGER RANGE     Set the number of states of the world. Default is 100.
-
---optimize_output PATH      Output csv from Rhodium-SWMM optimization
-```
-
-Example of command with full options: 
-
-`example_module evaluate-robustness –num_SOW 100  –optimize-output ~/example_module/example_module/data/other_data/optimize-NSGAII-100000-3obj.csv.csv`
-
-
-## prim
-
-Options
-
-```
---evaluate_output PATH    Output csv from Rhodium-SWMM optimization
-
---response TEXT
-
---cutoff FLOAT
-
---tag1 TEXT               should choose between 'good' or 'bad' when is less than a cutoff value
-
---tag2 TEXT               should choose between 'good' or 'bad' when is greater than a cutoff value
-```
-
-`example_module prim --evaluate_output ~/example_module/example_module/data/other_data/evaluate_policy.csv --response "Cost" --cutoff 8000 --tag1 "good" --tag2 "bad"`
-
-<br>
+Run `cd example\example_module` to move to that directory.
+Run `python initialize.py` to optimize the example. Edit line 121 of `initialize.py` to use a different algorithm or NFE.
 
 # Importing your data 
 
