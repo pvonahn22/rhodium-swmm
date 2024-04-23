@@ -26,7 +26,7 @@ Install Anaconda from https://www.anaconda.com/
 
 From Anaconda Prompt, navigate to the `rhodium-swmm` directory (`cd /path/to/rhodium-swmm`)  
 Then create a Python 3.10 virtual environment with:  
-    `conda create python310-venv python=3.10`
+    `conda create -n python310-venv python=3.10`
 
 Then activate this environment with:  
     `conda activate python310-venv`
