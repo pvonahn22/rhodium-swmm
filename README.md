@@ -51,7 +51,7 @@ To help mainstream MORDM applications in GI planning, we developed an open-sourc
 
 
 ## Journal reference
-Coming soon
+Tebyanian, N., Fischbach, J., Lempert, R., Knopman, D., Wu, H., Iulo, L., & Keller, K. (2023). Rhodium-SWMM: An open-source tool for green infrastructure placement under deep uncertainty. Environmental Modelling & Software, 163, 105671. https://www.sciencedirect.com/science/article/pii/S1364815223000579
 
 ## Code reference
 Tebyanian, Nastaran. “NastaranT/Rhodium-Swmm: Rhodium-SWMM Version 1.0 Initial Release.” Zenodo, August 31, 2022. https://doi.org/10.5281/ZENODO.7038551.
