@@ -6,6 +6,8 @@ from os.path import join,relpath
 from rhodium_swmm.parameters import SwmmPathParameter
 from rhodium_swmm.parameters import RhodiumParameter
 
+from rhodium_swmm.rhodium_analysis import rhodium_swmm_optimize
+
 from rhodium_swmm import swmm_problem
 from rhodium_swmm.response import CostResponse, CoBenefitResponse, NodeRunoffVolumeResponse
 from rhodium_swmm.model import RhodiumSwmmModel
@@ -13,7 +15,7 @@ from rhodium_swmm.lids import LidUsage
 from rhodium.model import IntegerLever
 from rhodium.model import CategoricalUncertainty
 from rhodium import *
-from .spatial_priorities import create_priority_dict
+from spatial_priorities import create_priority_dict
 from rhodium_swmm.response import PriorityResponse
 from rhodium_swmm.cli import cli
 import pandas as pd
@@ -21,19 +23,8 @@ from rhodium_swmm import config
 import pkgutil
 import logging
 
-def cli_entrypoint():
-    config.RhodiumSwmmConfig.initialize = initialize_rhodium_swmm_model
-    config.RhodiumSwmmConfig.parallel_initialize = parallel_initialize
-    cli()
-
-def parallel_initialize():
-    env = str(uuid4())
-    os.makedirs(env, exist_ok=True)
-    os.chdir(env)
-    return initialize_rhodium_swmm_model()
-
-def get_data_files():
-    package_path = os.path.dirname(__file__)
+def get_data_files(file_dir):
+    package_path = os.path.dirname(file_dir)
     data_path = join(package_path, "data")
     files = []
     for (dirpath, dirnames, filenames) in os.walk(data_path):
@@ -42,8 +33,8 @@ def get_data_files():
 
     return files
 
-def initialize_files():
-    files = get_data_files()
+def initialize_files(file_dir):
+    files = get_data_files(file_dir)
 
     for file_path in files:
         f = pkgutil.get_data(__name__,file_path)
@@ -51,9 +42,9 @@ def initialize_files():
         with open(file_path, 'wb') as writer:
             writer.write(f)
 
-def initialize_rhodium_swmm_model(make_files=True):
+def initialize_rhodium_swmm_model(file_dir,make_files=True):
     if(make_files):
-        initialize_files()
+        initialize_files(file_dir)
 
     logging.basicConfig(filename = "platypus.log", level=logging.INFO)
 
@@ -124,3 +115,8 @@ def initialize_rhodium_swmm_model(make_files=True):
     swmm_problem.set_model(rhodium_swmm_model)
     print("finished initializing")
     return rhodium_swmm_model
+
+file_dir = "C:/Users/jdq21/OneDrive - University of Virginia/CE4110_6250/Projects/rhodium-swmm-main/example/example_module"
+rhodium_swmm_model = initialize_rhodium_swmm_model(file_dir)
+output = optimize(rhodium_swmm_model.rhodium_model, "NSGAII", 1000, log_frequency=1, population_size=100, module="rhodium_swmm.platypus_modifications")
+output.save(file_dir + "/output.csv", format="csv")
