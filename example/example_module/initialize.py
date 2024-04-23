@@ -116,7 +116,7 @@ def initialize_rhodium_swmm_model(file_dir,make_files=True):
     print("finished initializing")
     return rhodium_swmm_model
 
-file_dir = "C:/Users/jdq21/OneDrive - University of Virginia/CE4110_6250/Projects/rhodium-swmm-main/example/example_module"
+file_dir = os.getcwd()
 rhodium_swmm_model = initialize_rhodium_swmm_model(file_dir)
 output = optimize(rhodium_swmm_model.rhodium_model, "NSGAII", 1000, log_frequency=1, population_size=100, module="rhodium_swmm.platypus_modifications")
 output.save(file_dir + "/output.csv", format="csv")
