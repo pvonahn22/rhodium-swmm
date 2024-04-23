@@ -4,7 +4,7 @@ import click
 import logging
 from rhodium import load, Brush, cache
 from platypus.evaluator import PoolEvaluator
-from platypus.mpipool import MPIPool
+#from platypus.mpipool import MPIPool
 from .platypus_modifications import ProcessPoolEvaluatorWithInit
 from .rhodium_analysis import max_each_subcatchment, rhodium_swmm_evaluate, rhodium_swmm_evaluate_robustness, rhodium_swmm_optimize, rhodium_swmm_optimize_borg, rhodium_swmm_optimize_borg, rhodium_swmm_parallel_plot, rhodium_swmm_prim, rhodium_swmm_robust_optimize, hypervolume_test
 from rhodium.config import RhodiumConfig
@@ -13,14 +13,14 @@ import sys
 import os
 import datetime
 import random
-from mpi4py import MPI
+#from mpi4py import MPI
 
 @click.group()
 @click.option("--reuse", is_flag=True, help="Reuse the results in the current directory if available")
 @click.option("--num_processes", default = 20, type=int, help="Set the number of processes to use for the simulation. By default this is set to the number of cores on the machine")
 @click.option("--log_output", default="platypus.log", type=str, help="File to write log output. Default is rhodium_swmm.log")
 @click.option("--log_level", default="INFO", type=click.Choice(['DEBUG', 'INFO', 'WARNING', 'ERORR', 'CRITICAL']), help="Set logging level")
-@click.option("--mpi", is_flag = True, help="Use MPI")
+#@click.option("--mpi", is_flag = True, help="Use MPI")
 @click.pass_context
 def cli(ctx, reuse, num_processes, log_output, log_level, mpi):
     """Console script for negley_run."""
@@ -29,15 +29,15 @@ def cli(ctx, reuse, num_processes, log_output, log_level, mpi):
     if num_processes != 1:
         if num_processes < 1:
             num_processes = None
-        if mpi==True:
-            pool = MPIPool()
-            if not pool.is_master():
-                RhodiumSwmmConfig.parallel_initialize()
-                pool.wait()
-                sys.exit()
-            RhodiumConfig.default_evaluator = PoolEvaluator(pool)
-        else:
-            RhodiumConfig.default_evaluator = ProcessPoolEvaluatorWithInit(num_processes, RhodiumSwmmConfig.parallel_initialize)
+        #if mpi==True:
+        #    pool = MPIPool()
+        #    if not pool.is_master():
+        #        RhodiumSwmmConfig.parallel_initialize()
+        #        pool.wait()
+        #        sys.exit()
+        #    RhodiumConfig.default_evaluator = PoolEvaluator(pool)
+        #else:
+        RhodiumConfig.default_evaluator = ProcessPoolEvaluatorWithInit(num_processes, RhodiumSwmmConfig.parallel_initialize)
 
     log_level = getattr(logging, log_level)
     #logging.basicConfig(filename=log_output, level=logging.INFO)
