@@ -23,7 +23,7 @@ Alternatively, clone the repository by running the following command:
 
 Install Anaconda from https://www.anaconda.com/
 
-From Anaconda Prompt, navigate to the `rhodium-swmm` directory (`cd /path/to/rhodium-swmm`)  
+From Anaconda Prompt, navigate to the `rhodium-swmm-main` directory (`cd /path/to/rhodium-swmm-main`)  
 Then create a Python 3.10 virtual environment with:  
     `conda create -n python310-venv python=3.10`
 
