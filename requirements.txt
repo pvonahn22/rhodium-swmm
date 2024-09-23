@@ -23,7 +23,6 @@ MarkupSafe
 matplotlib
 more-itertools
 mpldatacursor
-mpi4py
 numpy
 packaging
 pandas
