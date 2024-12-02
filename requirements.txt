@@ -62,6 +62,6 @@ urllib3
 wincertstore
 XlsxWriter
 zipp
-platypus-opt
+Platypus-Opt==1.2.0
 git+http://github.com/NastaranT/Rhodium@rhodium-swmm-compatibility#egg=rhodium
 #pyswmm
