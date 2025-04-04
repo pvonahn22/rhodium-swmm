@@ -1,3 +1,4 @@
+
 from dataclasses import dataclass
 from os import name
 from typing import Any, List
@@ -92,6 +93,15 @@ class RainBarrel(LidControl):
 class PermeablePavement(LidControl):
     lid_type = "PP"
 
+class GrassSwale(LidControl):
+    lid_type = "VS"
+
+class RainGarden(LidControl):
+    lid_type = "RG"
+
+class GreenRoof(LidControl):
+    lid_type = "GR"
+
 @dataclass
 class LidUsage(SwmmInputElement):
     subcatchment: Any
@@ -115,4 +125,5 @@ class LidUsage(SwmmInputElement):
     def update_swmm_input_dict(self, input: dict) -> dict:
         input["LID_USAGE"]["lines"].append(self.gen_input_line())
         return input
+
 
